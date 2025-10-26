@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from pandas.core.interchange.dataframe_protocol import DataFrame
 
 # 1. Pobieranie danych
 
@@ -101,7 +102,7 @@ print("TWORZENIE WYKRESÓW")
 print("=" * 50)
 
 # wykres 1, rozklad wartości alkoholu
-if 'alkohol' in df.columns:
+if 'alkohol' in df.columns and False:
     plt.figure(figsize=(10, 6))
 
     plt.subplot(1, 3, 1) # z lewej
@@ -122,13 +123,33 @@ if 'alkohol' in df.columns:
     df.boxplot(column='alkohol', grid=False)
     plt.title('Boxplot: Zawartość alkoholu')
     # plt.savefig('wykres1.png')
+    plt.show()
 
-    
+# wykres 2, rozkład ocen
+if 'ocena' in df.columns and False:
+    plt.figure(figsize=(8, 5))
+    df['ocena'].hist(bins=8, color='lightgreen', edgecolor='black', alpha=0.7)
+    plt.title('Rozkład ocen piw')
+    plt.xlabel('Ocena (w skali 1-5)')
+    plt.ylabel('Liczba piw')
+    plt.grid(axis='y', alpha=0.3)
+    plt.show()
 
+# Wykres 3, Zależność między alkoholem, a ceną
+if 'alkohol' in df.columns and 'ocena' in df.columns:
+    plt.figure(figsize=(8, 6))
+    plt.scatter(df['alkohol'], df['ocena'], alpha=0.6, s=60, color='purple')
+    plt.title('Zależność między zawartością alkoholu a oceną')
+    plt.xlabel('Zawartość alkoholu (%)')
+    plt.ylabel('Ocena')
+    plt.grid(True, alpha=0.3)
 
-
+    z = np.polyfit(df['alkohol'], df['ocena'], 1)
+    p = np.poly1d(z)
+    plt.plot(df['alkohol'], p(df['alkohol']), "r--", alpha=0.8)
 
     plt.show()
+
 
 
 
