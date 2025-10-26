@@ -76,7 +76,7 @@ if len (kolumny_tekstowe) > 0:
         print(f'\nKolumna: {kolumna}')
         print(f'Unikalnych wartości: {df[kolumna].unique()}')
         print(f'Liczba unikalnych wartości: {len(df[kolumna].unique())}')
-        print('3 jajczęstrze wartości:')
+        print('3 najczęstrze wartości:')
         print(df[kolumna].value_counts().head(3))
     else:
         print('Brak kolumn kategorycznych w danych')
@@ -136,7 +136,7 @@ if 'ocena' in df.columns and False:
     plt.show()
 
 # Wykres 3, Zależność między alkoholem, a ceną
-if 'alkohol' in df.columns and 'ocena' in df.columns:
+if 'alkohol' in df.columns and 'ocena' in df.columns and False:
     plt.figure(figsize=(8, 6))
     plt.scatter(df['alkohol'], df['ocena'], alpha=0.6, s=60, color='purple')
     plt.title('Zależność między zawartością alkoholu a oceną')
@@ -144,12 +144,72 @@ if 'alkohol' in df.columns and 'ocena' in df.columns:
     plt.ylabel('Ocena')
     plt.grid(True, alpha=0.3)
 
+    # linia trendu
     z = np.polyfit(df['alkohol'], df['ocena'], 1)
     p = np.poly1d(z)
     plt.plot(df['alkohol'], p(df['alkohol']), "r--", alpha=0.8)
 
     plt.show()
 
+# Wykres 4, Popularnośc stylów piw
+if 'styl' in df.columns and False:
+    plt.figure(figsize=(10, 6))
+    df['styl'].value_counts().plot(kind='bar', color='orange', edgecolor='black')
+    plt.title('Popularność stylów piw')
+    plt.xlabel('Styl piwa')
+    plt.ylabel('Liczba piw')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.show()
 
+# 5. Macierz korelacji
+if len(kolumny_numeryczne) >= 2 and False:
+    plt.figure(figsize=(8, 6))
+    macierz_korelacji = df[kolumny_numeryczne].corr()
+    sns.heatmap(macierz_korelacji, annot=True,cmap='rocket', center=0)
+    plt.title('Korelacje między cechami numerycznymi')
+    plt.tight_layout()
+    plt.show()
 
+# 9. Analiza duplikatów
+print("\n" + "="*50)
+print("ANALIZA DUPLIKATÓW")
+print("="*50)
 
+duplikaty = df.duplicated()
+if duplikaty.sum() > 0:
+    print(f'Znaleziono {duplikaty.sum()} zduplikowanych wierszy')
+    print('zduplikowane wiersze: ')
+    print(df[duplikaty])
+else:
+    print('Brak duplikatów')
+
+# 10. Podsumowanie
+print("\n" + "="*50)
+print("PODSUMOWANIE ANALIZY")
+print("="*50)
+
+print("Analiza EDA zakończona pomyślnie!")
+print(f"Przeanalizowano {len(df)} piw")
+print(f"Liczba cech: {len(df.columns)}")
+
+if len(kolumny_numeryczne) > 0:
+    print("Znalezione cechy numeryczne:", list(kolumny_numeryczne))
+
+if len(kolumny_tekstowe) > 0:
+    print("Znalezione cechy kategoryczne:", list(kolumny_tekstowe))
+
+# najlepiej ocenione:
+if 'ocena' in df.columns and 'nazwa' in df.columns:
+    print('\nTop 3 najwyżej oceniane piwa')
+    najlepsze = df.nlargest(3, 'ocena')[['nazwa', 'ocena']]
+    print(najlepsze)
+
+# najwyższa zawartosć alko
+if 'alkohol' in df.columns and 'nazwa' in df.columns:
+    print("\n3 piwa z najwyższą zawartością alkoholu:")
+    mocne = df.nlargest(3, 'alkohol')[['nazwa', 'alkohol']]
+    print(mocne)
+
+print("\n" + "="*50)
