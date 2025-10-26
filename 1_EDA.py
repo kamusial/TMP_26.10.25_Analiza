@@ -64,3 +64,42 @@ if len(kolumny_numeryczne) > 0:
 else:
     print('Brak kolumn numerycznych w danych')
 
+# 6. Statystyki kategoryczne
+print("\n" + "="*50)
+print("STATYSTYKI KATEGORYCZNE")
+print("="*50)
+
+kolumny_tekstowe = df.select_dtypes(include='object').columns
+if len (kolumny_tekstowe) > 0:
+    for kolumna in kolumny_tekstowe:
+        print(f'\nKolumna: {kolumna}')
+        print(f'Unikalnych wartości: {df[kolumna].unique()}')
+        print(f'Liczba unikalnych wartości: {len(df[kolumna].unique())}')
+        print('3 jajczęstrze wartości:')
+        print(df[kolumna].value_counts().head(3))
+    else:
+        print('Brak kolumn kategorycznych w danych')
+
+# 7. Brakujące wartości
+print("\n" + "="*50)
+print("BRAKUJĄCE WARTOŚCI")
+print("="*50)
+
+brakujace = df.isna().sum()  #  liczba braków w kolumnach
+if brakujace.sum() > 0:
+    print('Kolumny z brakującymi wartościami:')
+    for kolumna in df.columns:
+        if df[kolumna].isna().sum() > 0:
+            braki_liczbowo = df[kolumna].isnull().sum()
+            braki_procentowo = (braki_liczbowo / len(df)) * 100
+            print(f'    {kolumna}: {braki_liczbowo} ({braki_procentowo:.2f}%)')
+
+# 8. Wizualizacje
+
+print("\n" + "=" * 50)
+print("TWORZENIE WYKRESÓW")
+print("=" * 50)
+
+
+
+
