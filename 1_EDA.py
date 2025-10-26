@@ -100,6 +100,35 @@ print("\n" + "=" * 50)
 print("TWORZENIE WYKRESÓW")
 print("=" * 50)
 
+# wykres 1, rozklad wartości alkoholu
+if 'alkohol' in df.columns:
+    plt.figure(figsize=(10, 6))
+
+    plt.subplot(1, 3, 1) # z lewej
+    plt.title('Rozklad zawartosci alkoholu')
+    plt.xlabel('Zawartosc alko w (%)')
+    plt.ylabel('Liczba piw')
+    plt.tight_layout()
+    plt.hist(df.alkohol)
+
+    plt.subplot(1, 3, 2)
+    plt.title('Rozklad zawartosci alkoholu')
+    plt.xlabel('Zawartosc alko w (%)')
+    plt.ylabel('Liczba piw')
+    plt.tight_layout()
+    df['alkohol'].hist(bins=10, color='lightblue', edgecolor='black')
+
+    plt.subplot(1, 3, 3) # z prawej
+    df.boxplot(column='alkohol', grid=False)
+    plt.title('Boxplot: Zawartość alkoholu')
+    # plt.savefig('wykres1.png')
+
+    
+
+
+
+
+    plt.show()
 
 
 
