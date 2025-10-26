@@ -23,3 +23,44 @@ except Exception as e:
         'styl': ['IPA', 'IPA', 'Lager', 'Ciemne', 'Lager', np.nan, 'Ciemne', 'Jasne', 'Ciemne']
     }
     df = pd.DataFrame(data)
+
+print(df)
+
+# 2. Podstawowe informacje
+print('\n' + '='*50)
+print('PODSTAWOWE INFORMACJE')
+print('='*50)
+
+print(f'Wymiary danych: {df.shape}')
+print(f'Liczba wierszy: {df.shape[0]}')
+print(f'Liczba kolumn: {df.shape[1]}')
+
+# 3. Podglad danych
+print('\n' + '='*50)
+print('PODGLĄD DANYCH')
+print('='*50)
+
+print('Pierwsze 5 piw:')
+print(df.head())
+print('5 ostatnich piw')
+print(df.tail())
+
+# 4. Typy danych
+print('\n' + '='*50)
+print('TYPY DANYCH')
+print('='*50)
+
+print(f'\n{df.info()}')
+
+# 5. Statystyki numeryczne
+print('\n' + '='*50)
+print('STATYSTYKI NUMERYCZNE')
+print('='*50)
+
+kolumny_numeryczne = df.select_dtypes(include='number').columns
+if len(kolumny_numeryczne) > 0:
+    print('Statystyki dla cech numerycznych:')
+    print(df[kolumny_numeryczne].describe())
+else:
+    print('Brak kolumn numerycznych w danych')
+
